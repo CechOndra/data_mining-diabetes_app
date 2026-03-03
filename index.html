@@ -159,16 +159,31 @@
             color: #4a6cf7;
         }
 
+        .info-wrap:hover .info-tooltip {
+            display: block;
+        }
+
+        .info-wrap {
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+        }
+
         .info-tooltip {
             display: none;
+            position: absolute;
+            top: 100%;
+            left: -40px;
+            margin-top: 8px;
             background: #edf2f7;
             border-radius: 6px;
             padding: 10px 12px;
-            margin-top: 4px;
-            margin-bottom: 4px;
             font-size: 0.8rem;
             color: #4a5568;
             line-height: 1.45;
+            width: 260px;
+            z-index: 10;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
         }
 
         .info-tooltip.open {
@@ -260,6 +275,103 @@
             line-height: 1.4;
         }
 
+        .overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 100;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .overlay.visible {
+            display: flex;
+        }
+
+        .overlay-card {
+            background: #fff;
+            border-radius: 16px;
+            padding: 48px 40px 40px;
+            max-width: 420px;
+            width: 100%;
+            text-align: center;
+            position: relative;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+        }
+
+        .overlay-close {
+            position: absolute;
+            top: 14px;
+            right: 16px;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: #a0aec0;
+            cursor: pointer;
+            line-height: 1;
+            padding: 4px 8px;
+        }
+
+        .overlay-close:hover {
+            color: #2d3748;
+        }
+
+        .overlay-icon {
+            width: 64px;
+            height: 64px;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+            font-size: 2rem;
+        }
+
+        .overlay-icon.high {
+            background: #fff5f5;
+            color: #e53e3e;
+        }
+
+        .overlay-icon.low {
+            background: #f0fff4;
+            color: #38a169;
+        }
+
+        .overlay-icon.empty {
+            background: #fefce8;
+            color: #d97706;
+        }
+
+        .overlay-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .overlay-title.high { color: #e53e3e; }
+        .overlay-title.low { color: #38a169; }
+        .overlay-title.empty { color: #d97706; }
+
+        .overlay-img {
+            max-width: 100%;
+            max-height: 200px;
+            border-radius: 10px;
+            margin-bottom: 16px;
+            display: none;
+        }
+
+        .overlay-img.visible {
+            display: block;
+        }
+
+        .overlay-msg {
+            color: #718096;
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+
         @media (max-width: 500px) {
             .form-grid {
                 grid-template-columns: 1fr;
@@ -274,9 +386,7 @@
 <body>
     <div class="container">
         <div class="header">
-            <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M4 24h8l4-10 6 20 6-14 4 4h12" stroke="#4a6cf7" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
+            <img src="rod of asclepius.png" alt="Rod of Asclepius" style="width:56px;height:56px">
             <h1>Diabetes Risk Assessment</h1>
             <p>Enter your health metrics for a preliminary diabetes risk evaluation</p>
         </div>
@@ -287,10 +397,12 @@
                     <div class="form-group">
                         <div class="label-row">
                             <label for="bmi">BMI</label>
-                            <button type="button" class="info-btn" data-info="bmi">i</button>
-                        </div>
-                        <div class="info-tooltip" id="info-bmi">
-                            <strong>Body Mass Index</strong> — a measure of body fat based on weight and height (weight in kg / height in m&sup2;). <br>Normal: 18.5–24.9 &bull; Overweight: 25–29.9 &bull; Obese: 30+
+                            <span class="info-wrap">
+                                <button type="button" class="info-btn" data-info="bmi">i</button>
+                                <div class="info-tooltip" id="info-bmi">
+                                    <strong>Body Mass Index</strong> — a measure of body fat based on weight and height (weight in kg / height in m&sup2;). <br>Normal: 18.5–24.9 &bull; Overweight: 25–29.9 &bull; Obese: 30+
+                                </div>
+                            </span>
                         </div>
                         <div class="input-wrapper">
                             <input type="number" id="bmi" placeholder="Enter BMI" step="any" min="0" max="100">
@@ -302,10 +414,12 @@
                     <div class="form-group">
                         <div class="label-row">
                             <label for="glucose">Glucose</label>
-                            <button type="button" class="info-btn" data-info="glucose">i</button>
-                        </div>
-                        <div class="info-tooltip" id="info-glucose">
-                            <strong>Plasma glucose concentration</strong> — measured via a 2-hour oral glucose tolerance test. <br>Normal: &lt;140 mg/dL &bull; Prediabetes: 140–199 &bull; Diabetes: 200+
+                            <span class="info-wrap">
+                                <button type="button" class="info-btn" data-info="glucose">i</button>
+                                <div class="info-tooltip" id="info-glucose">
+                                    <strong>Plasma glucose concentration</strong> — measured via a 2-hour oral glucose tolerance test. <br>Normal: &lt;140 mg/dL &bull; Prediabetes: 140–199 &bull; Diabetes: 200+
+                                </div>
+                            </span>
                         </div>
                         <div class="input-wrapper">
                             <input type="number" id="glucose" placeholder="Enter glucose level" step="any" min="0" max="500">
@@ -317,10 +431,12 @@
                     <div class="form-group">
                         <div class="label-row">
                             <label for="insulin">Insulin</label>
-                            <button type="button" class="info-btn" data-info="insulin">i</button>
-                        </div>
-                        <div class="info-tooltip" id="info-insulin">
-                            <strong>2-Hour serum insulin</strong> — the amount of insulin in blood 2 hours after glucose intake. <br>Normal fasting: 2–25 &micro;U/mL &bull; Higher values may indicate insulin resistance.
+                            <span class="info-wrap">
+                                <button type="button" class="info-btn" data-info="insulin">i</button>
+                                <div class="info-tooltip" id="info-insulin">
+                                    <strong>2-Hour serum insulin</strong> — the amount of insulin in blood 2 hours after glucose intake. <br>Normal fasting: 2–25 &micro;U/mL &bull; Higher values may indicate insulin resistance.
+                                </div>
+                            </span>
                         </div>
                         <div class="input-wrapper">
                             <input type="number" id="insulin" placeholder="Enter insulin level" step="any" min="0" max="1000">
@@ -341,10 +457,12 @@
                     <div class="form-group">
                         <div class="label-row">
                             <label for="diabetes_pedigree">Diabetes Pedigree</label>
-                            <button type="button" class="info-btn" data-info="diabetes_pedigree">i</button>
-                        </div>
-                        <div class="info-tooltip" id="info-diabetes_pedigree">
-                            <strong>Diabetes Pedigree Function</strong> — scores the likelihood of diabetes based on family history. Higher values indicate a stronger genetic influence. <br>Typical range: 0.08–2.42
+                            <span class="info-wrap">
+                                <button type="button" class="info-btn" data-info="diabetes_pedigree">i</button>
+                                <div class="info-tooltip" id="info-diabetes_pedigree">
+                                    <strong>Diabetes Pedigree Function</strong> — scores the likelihood of diabetes based on family history. Higher values indicate a stronger genetic influence. <br>Typical range: 0.08–2.42
+                                </div>
+                            </span>
                         </div>
                         <div class="input-wrapper">
                             <input type="number" id="diabetes_pedigree" placeholder="Enter pedigree function" step="any" min="0" max="3">
@@ -355,10 +473,12 @@
                     <div class="form-group">
                         <div class="label-row">
                             <label for="skinfold">Skinfold</label>
-                            <button type="button" class="info-btn" data-info="skinfold">i</button>
-                        </div>
-                        <div class="info-tooltip" id="info-skinfold">
-                            <strong>Triceps skinfold thickness</strong> — measured by pinching the skin on the back of the upper arm to estimate subcutaneous fat. <br>Normal for women: 10–30 mm &bull; Values above 30 may suggest higher body fat.
+                            <span class="info-wrap">
+                                <button type="button" class="info-btn" data-info="skinfold">i</button>
+                                <div class="info-tooltip" id="info-skinfold">
+                                    <strong>Triceps skinfold thickness</strong> — measured by pinching the skin on the back of the upper arm to estimate subcutaneous fat. <br>Normal for women: 10–30 mm &bull; Values above 30 may suggest higher body fat.
+                                </div>
+                            </span>
                         </div>
                         <div class="input-wrapper">
                             <input type="number" id="skinfold" placeholder="Enter skinfold thickness" step="any" min="0" max="100">
@@ -370,10 +490,12 @@
                     <div class="form-group full-width">
                         <div class="label-row">
                             <label for="blood_pressure">Blood Pressure</label>
-                            <button type="button" class="info-btn" data-info="blood_pressure">i</button>
-                        </div>
-                        <div class="info-tooltip" id="info-blood_pressure">
-                            <strong>Diastolic blood pressure</strong> — the pressure in arteries when the heart rests between beats. <br>Normal: &lt;80 mmHg &bull; Elevated: 80–89 &bull; High: 90+
+                            <span class="info-wrap">
+                                <button type="button" class="info-btn" data-info="blood_pressure">i</button>
+                                <div class="info-tooltip" id="info-blood_pressure">
+                                    <strong>Diastolic blood pressure</strong> — the pressure in arteries when the heart rests between beats. <br>Normal: &lt;80 mmHg &bull; Elevated: 80–89 &bull; High: 90+
+                                </div>
+                            </span>
                         </div>
                         <div class="input-wrapper">
                             <input type="number" id="blood_pressure" placeholder="Enter blood pressure" step="any" min="0" max="300">
@@ -394,6 +516,16 @@
             <div class="disclaimer" id="disclaimer">
                 <p><strong>Disclaimer:</strong> This tool is based on a decision tree model trained on the Pima Indians Diabetes dataset and is intended for educational purposes only. It is not a substitute for professional medical advice, diagnosis, or treatment.</p>
             </div>
+        </div>
+    </div>
+
+    <div class="overlay" id="overlay">
+        <div class="overlay-card">
+            <button class="overlay-close" id="overlay-close">&times;</button>
+            <img class="overlay-img" id="overlay-img" src="" alt="">
+            <div class="overlay-icon" id="overlay-icon"></div>
+            <div class="overlay-title" id="overlay-title"></div>
+            <div class="overlay-msg" id="overlay-msg"></div>
         </div>
     </div>
 
@@ -1074,7 +1206,42 @@
 
             if (!valid) return;
 
-            const result = predictDiabetes(
+            // Check if all fields are empty
+            var allEmpty = fields.every(function(f) { return values[f] === null; });
+
+            var overlayEl = document.getElementById('overlay');
+            var overlayIcon = document.getElementById('overlay-icon');
+            var overlayTitle = document.getElementById('overlay-title');
+            var overlayMsg = document.getElementById('overlay-msg');
+            var resultEl = document.getElementById('result');
+            var titleEl = document.getElementById('result-title');
+            var msgEl = document.getElementById('result-msg');
+            var disclaimerEl = document.getElementById('disclaimer');
+
+            var overlayImg = document.getElementById('overlay-img');
+
+            resultEl.classList.remove('high-risk', 'low-risk');
+            overlayIcon.className = 'overlay-icon';
+            overlayTitle.className = 'overlay-title';
+            overlayImg.className = 'overlay-img';
+            overlayImg.src = '';
+
+            if (allEmpty) {
+                // Show empty-state overlay
+                overlayIcon.classList.add('empty');
+                overlayIcon.textContent = '!';
+                overlayTitle.classList.add('empty');
+                overlayTitle.textContent = 'No Data Entered';
+                overlayMsg.textContent = 'Please fill in at least one health metric to get a risk assessment.';
+                overlayEl.classList.add('visible');
+
+                // Hide inline result
+                resultEl.style.display = 'none';
+                disclaimerEl.classList.remove('visible');
+                return;
+            }
+
+            var result = predictDiabetes(
                 values.glucose,
                 values.blood_pressure,
                 values.skinfold,
@@ -1084,24 +1251,49 @@
                 values.age
             );
 
-            const resultEl = document.getElementById('result');
-            const titleEl = document.getElementById('result-title');
-            const msgEl = document.getElementById('result-msg');
-            const disclaimerEl = document.getElementById('disclaimer');
-
-            resultEl.classList.remove('high-risk', 'low-risk');
-
             if (result === 'true') {
+                // Overlay
+                overlayImg.src = 'High Risk.png';
+                overlayImg.alt = 'High Risk';
+                overlayImg.classList.add('visible');
+                overlayIcon.classList.add('high');
+                overlayIcon.textContent = '⚠';
+                overlayTitle.classList.add('high');
+                overlayTitle.textContent = 'High Risk';
+                overlayMsg.textContent = 'The model predicts a higher risk of diabetes. Consider consulting a healthcare professional for further evaluation.';
+
+                // Inline result
                 resultEl.classList.add('high-risk');
                 titleEl.textContent = 'High Risk';
                 msgEl.textContent = 'Consider consulting a healthcare professional for further evaluation.';
             } else {
+                // Overlay
+                overlayImg.src = 'Low Risk.png';
+                overlayImg.alt = 'Low Risk';
+                overlayImg.classList.add('visible');
+                overlayIcon.classList.add('low');
+                overlayIcon.textContent = '✓';
+                overlayTitle.classList.add('low');
+                overlayTitle.textContent = 'Low Risk';
+                overlayMsg.textContent = 'The model predicts a lower risk of diabetes. Continue maintaining a healthy lifestyle.';
+
+                // Inline result
                 resultEl.classList.add('low-risk');
                 titleEl.textContent = 'Low Risk';
                 msgEl.textContent = 'Your results suggest a lower risk. Continue maintaining a healthy lifestyle.';
             }
 
+            resultEl.style.display = '';
+            overlayEl.classList.add('visible');
             disclaimerEl.classList.add('visible');
+        });
+
+        // Overlay close
+        document.getElementById('overlay-close').addEventListener('click', function() {
+            document.getElementById('overlay').classList.remove('visible');
+        });
+        document.getElementById('overlay').addEventListener('click', function(e) {
+            if (e.target === this) this.classList.remove('visible');
         });
     </script>
 </body>
